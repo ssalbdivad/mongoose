@@ -17,7 +17,7 @@ declare module 'mongoose' {
         [K in OptionalPathKeys<DocDefinition, TSchemaOptions['typeKey']>]?: ObtainRawDocumentPathType<
           DocDefinition[K],
           TSchemaOptions['typeKey']
-        > | null;
+        > | null | undefined;
       },
       TSchemaOptions
     >

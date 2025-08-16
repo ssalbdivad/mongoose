@@ -123,17 +123,9 @@ declare module 'mongoose' {
     : T;
 }
 
-type IsPathDefaultUndefined<PathType> =
-  PathType extends { default: undefined } ? true
-  : PathType extends { default: (...args: any[]) => undefined } ? true
-  : false;
-
-type RequiredPropertyDefinition =
-  | {
-      required: true | string | [true, string | undefined] | { isRequired: true };
-    }
-  | ArrayConstructor
-  | any[];
+type RequiredPropertyDefinition = {
+  required: true | string | [true, string | undefined] | { isRequired: true };
+}
 
 /**
  * @summary Checks if a document path is required or optional.
@@ -146,15 +138,11 @@ type IsPathRequired<P, TypeKey extends string = DefaultTypeKey> =
     P extends { required: false } ?
       false
     : true
-  : P extends Record<TypeKey, ArrayConstructor | any[]> ?
-    IsPathDefaultUndefined<P> extends true ?
-      false
-    : true
   : P extends Record<TypeKey, any> ?
-    P extends { default: any } ?
-      IfEquals<P['default'], undefined, false, true>
-    : false
-  : false;
+      P extends { default: any } ?
+        IfEquals<P['default'], undefined, false, true>
+      : false
+    : false;
 
 /**
  * @summary A Utility to obtain schema's required path keys.
